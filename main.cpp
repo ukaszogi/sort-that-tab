@@ -61,6 +61,21 @@ void heap_sort_tab(int* tab, int count) {
     }
 }
 
+void insertion_sort_tab(int* tab, int count) {
+    int j, t;
+    for (int i = 1; i < count; i++){
+        j = i;
+        while(j){
+            if(tab[j-1]>tab[j]) {
+                t = tab[j];
+                tab[j] = tab[j-1];
+                tab[j-1] = t;
+            }
+            j--;
+        }
+    }
+}
+
 int main() {
     vector <int> vec;
 
