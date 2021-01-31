@@ -76,6 +76,22 @@ void insertion_sort_tab(int* tab, int count) {
     }
 }
 
+int first_greater_index(int* tab, int n, int count) {
+    for(int i=0; i<count; i++)
+        if(tab[i]>n)
+            return i;
+    return count;
+}
+
+int first_greater_index_bin(int* tab, int n, int count) {
+    if(count == 1)
+        return 1;
+    else if(tab[count<<1] > n)
+        return first_greater_index(tab, n, count<<1);
+    else
+        return first_greater_index(tab+(count<<1), n, count<<1);
+}
+
 int main() {
     vector <int> vec;
 
