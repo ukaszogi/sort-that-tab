@@ -84,12 +84,16 @@ int first_greater_index(int* tab, int n, int count) {
 }
 
 int first_greater_index_bin(int* tab, int n, int count) {
-    if(count == 1)
-        return 1;
+    if(count == 1) {
+        if(tab[0]>n)
+            return 0;
+        else
+            return 1;
+    }
     else if(tab[count<<1] > n)
         return first_greater_index(tab, n, count<<1);
     else
-        return first_greater_index(tab+(count<<1), n, count<<1);
+        return (count<<1) + first_greater_index(tab+(count<<1), n, count-(count<<1));
 }
 
 int main() {
@@ -108,6 +112,8 @@ int main() {
     cout << "Test readings Section!!!\n\n\n";
     print_tab(tab, 9);
     print_tab(copitiy, 9);
+
+    cout << first_greater_index(tab, 5, 9) << '\t' << first_greater_index_bin(tab, 5, 9);
 
     return 0;
 }
