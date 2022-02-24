@@ -61,39 +61,49 @@ void heap_sort_tab(int* tab, int count) {
     }
 }
 
-void insertion_sort_tab(int* tab, int count) {
-    int j, t;
-    for (int i = 1; i < count; i++){
-        j = i;
-        while(j){
-            if(tab[j-1]>tab[j]) {
-                t = tab[j];
-                tab[j] = tab[j-1];
-                tab[j-1] = t;
-            }
-            j--;
-        }
-    }
-}
-
-int first_greater_index(int* tab, int n, int count) {
-    for(int i=0; i<count; i++)
-        if(tab[i]>n)
+int first_greater_index(int* tab, int count, int x) {
+    for (int i = 0; i < count; i++)
+        if (tab[i] > x)
             return i;
     return count;
 }
 
-int first_greater_index_bin(int* tab, int n, int count) {
-    if(count == 1) {
-        if(tab[0]>n)
-            return 0;
-        else
+int bin_first_greater_index(int* tab, int count, int x) {
+    int m = count / 2;
+    if (count == 1) {
+        if (tab[0] < x)
             return 1;
+        else
+            return 0;
     }
-    else if(tab[count<<1] > n)
-        return first_greater_index(tab, n, count<<1);
+    else if (count == 0) {
+        return 0;
+    }
+    if (tab[m] < x)
+        return m + 1 + bin_first_greater_index(tab + m + 1, count - m - 1, x);
     else
-        return (count<<1) + first_greater_index(tab+(count<<1), n, count-(count<<1));
+        return bin_first_greater_index(tab, m, x);
+}
+
+void tab_insert(int* tab, int count) {
+    int t = tab[count - 1];
+    for (int i = count - 2; i >= 0; i--) {
+        tab[i + 1] = tab[i];
+    }
+    tab[0] = t;
+}
+
+void tab_swap(int* tab, int count) {
+    int t = tab[0];
+    tab[0] = tab[count - 1];
+    tab[count - 1] = t;
+}
+
+void insertion_sort(int* tab, int count) {
+    for (int i = 0; i < count - 1; i++) {
+        int ts = bin_first_greater_index(tab, i + 1, tab[i + 1]);
+        tab_insert(tab + ts, i-ts+2);
+    }
 }
 
 int main() {
